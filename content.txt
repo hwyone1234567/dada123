@@ -1,0 +1,117 @@
+项目：爱心抗疫
+模块：一、志愿者申请注册、退出（必要）
+       前端：
+           1.登录时有一个忘记密码，通过手机号找回
+           2.注册时有一个验证码来确定
+       图如下：
+       
+二、登录了解线上所有志愿者的服务信息和各地区疫情信息
+  前台：
+      1.查询某志愿者的服务状态
+      2.查询志愿者抗疫分布情况
+      3.查看各地区实时疫情信息
+      4.查询某地区志愿者人数
+      5.查询某地区疫情感染情况
+   后台：
+1.管理员对地区疫情信息的定时更新。
+相关数据库表：
+1、志愿者服务信息表：
+字段名	类型	长度	约束	描述
+uid	varchar	30	pk	志愿者ID
+serviceStatus	    int	4	Not null	活动状态
+serviceTime	varchar	20	Not null	活动时长
+Sex	int	2	Not null	性别
+Nickname	Varchar	10	Not null	昵称
+RegistrationTiem	varchar	20	Not null	注册时间
+2、地区疫情表：
+字段名	类型	长度	约束	描述
+area 	varchar	20	pk	地区
+newAddNum	    int	10	Not null	新增确诊
+grandAddNum	int	10	Not null	累计确诊
+cureNum	int	10	Not null	治愈人数
+diedNum	int	10	Not null	死亡人数
+serviceNum	int	10	Not null	当地服务人数
+ 
+ 三、疫情防护知识宣传志
+       前端：
+1.可以查看基本的此次疫情的来源、传播、预防等知识。
+       
+    四、愿活动招募
+        后台（二级理员）：
+1.根据疫情情况和时间发布一些志愿者的活动，志愿者可报名参加，时间过了后不能报名。
+
+五、志愿者管理（超级管理员可管理志愿者信息）
+    后台（超级管理员）：
+            1.可查看所有用户和志愿者信息
+            2.可对用户的信息进行增删查改  
+其它流程：
+
+六、线上资源调配（疫情优先级）
+物资管理:这个界面有4个子模块。物资信息增加模块，物资信息删除模块，物资信息查询模块，物资信息修改模块。物资不足时需要该物资的活动无法发布。
+物资信息增加模块。
+在捐赠方捐献物资后将物资信息添加到数据库中。
+物资信息删除模块。
+作为抗疫志愿者系统，物资信息随着科学技术的发展也会随之变化，很多旧物资会被新物资替代，例如药品。被替代的旧物资相比新物资也许会存在一些弊端，例如药品的副作用。所以管理员在旧物资消耗完或者处理后需要将其信息从数据库中删除，用新物资替换。
+物资信息查询模块。
+物资的储备是非常重要的，物资不足将无法进行跟相关物资有关的抗疫志愿的活动。所以查询物资信息，了解物资的储备状况就显得非常重要，这可以使管理员直观了解物资相关信息，针对性的筹集物资。
+物资信息修改模块。
+考虑到物资信息发生变化，例如：物资信息描述，管理员可在物资信息修改模块修改物资相关信息。
+
+      后台：
+1.增:捐赠方捐赠物资，可添加新的物资种类或数量。
+2.删:管理员可把不再接收的物资或者错误的物资信息删除。
+3.改:管理员可以修改物资信息。
+4.查:管理员可以按照物资名查询该物资信息。
+5.活动所需物资按照疫情优先级调出，不够时，物资无法调出。活动无法发布。
+表1.1 物资表
+字段名	类型	长度	约束	描述
+supid	varchar	30	pk	物资编号
+suptype	    varchar	10	Not null	物资类型
+supname	varchar	20	Not null	物资名称
+supnorms	varchar	50	Not null	物资规格
+
+表1.2 物资入库表
+字段名	类型	长度	约束	描述
+supid	varchar	30	pk	物资编号
+suptype	    varchar	10	Not null	物资类型
+supname	varchar	20	Not null	物资名称
+supnorms	varchar	50	Not null	物资规格
+supquantity	int	10	Not null	物资数量
+supintime	varchar	30	Not null	入库时间
+did	varchar	20	Not null	捐赠方编号
+表1.3 物资出库表
+字段名	类型	长度	约束	描述
+supid	varchar	30	pk	物资编号
+suptype	    varchar	10	Not null	物资类型
+supname	varchar	20	Not null	物资名称
+supnorms	varchar	50	Not null	物资规格
+supquantity	int	10	Not null	物资数量
+supouttime	varchar	30	Not null	出库时间
+aid	varchar	20	Not null	活动编号
+
+表1.3 物资仓库表
+字段名	类型	长度	约束	描述
+supid	varchar	30	pk	物资编号
+suptype	    varchar	10	Not null	物资类型
+supname	varchar	20	Not null	物资名称
+supnorms	varchar	50	Not null	物资规格
+supdescribe	varchar	50	null	物资描述
+supquantity	int	10	Not null	物资库存数量
+
+
+
+七、志愿荣誉奖励排行
+           前端：
+            1.显示所有用户荣誉排名和参与活动的时长（通过时长排名）
+            2.可查看自己的荣誉排名和时长
+            3.达到时长可领取对应的奖品
+         后台（管理员）：
+            1.对奖品的处理
+数据表：
+奖品表
+字段名	类型	长度	约束	描述
+pid	varchar	30	pk	奖品编号
+serviceTime	    varchar	20	Not null	活动时长
+prize	varchar	20	Not null	奖品
+uid	varchar	30	Not null	用户ID
+Uname	Varchar	20	Not null	用户昵称
